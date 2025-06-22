@@ -1,7 +1,7 @@
-{
-  "name": "ai-discuss",
+{  "name": "ai-discuss",
   "version": "1.0.0",
   "description": "A web application where AI models engage in discussions on user-defined topics.",
+  "homepage": "https://ai_discuss.tremech.us",
   "main": "src/index.js",
   "scripts": {
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
