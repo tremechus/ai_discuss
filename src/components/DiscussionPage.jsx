@@ -133,13 +133,17 @@ function DiscussionPage({ config, onNewTopic }) {
                     role: 'user', 
                     content: 'Please continue the discussion.' 
                 });
+            }            const headers = {
+                'Content-Type': 'application/json',
+            };
+            
+            if (config.ollamaApiKey && config.ollamaApiKey.trim()) {
+                headers['X-API-Key'] = config.ollamaApiKey.trim();
             }
 
             const response = await fetch(`${config.ollamaServerUrl}/api/chat`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers,
                 body: JSON.stringify({
                     model: modelConfig.model,
                     messages: messages,

@@ -4,6 +4,9 @@ function TopicPage({ onStartDiscussion }) {
     const [ollamaServerUrl, setOllamaServerUrl] = useState(() => {
         return localStorage.getItem('ai-discuss-ollama-url') || 'http://localhost:11434';
     });
+    const [ollamaApiKey, setOllamaApiKey] = useState(() => {
+        return localStorage.getItem('ai-discuss-ollama-api-key') || '';
+    });
     const [availableModels, setAvailableModels] = useState([]);
     const [model1Config, setModel1Config] = useState(() => {
         const stored = localStorage.getItem('ai-discuss-model1');
@@ -25,11 +28,16 @@ function TopicPage({ onStartDiscussion }) {
         return localStorage.getItem('ai-discuss-topic') || '';
     });
     const [isLoadingModels, setIsLoadingModels] = useState(false);
+    const [modelFetchError, setModelFetchError] = useState(null);    useEffect(() => {
+        localStorage.setItem('ai-discuss-ollama-url', ollamaServerUrl);
+    }, [ollamaServerUrl]);
 
     useEffect(() => {
-        localStorage.setItem('ai-discuss-ollama-url', ollamaServerUrl);
+        localStorage.setItem('ai-discuss-ollama-api-key', ollamaApiKey);
+    }, [ollamaApiKey]);    // Fetch models on component mount
+    useEffect(() => {
         fetchAvailableModels();
-    }, [ollamaServerUrl]);
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('ai-discuss-model1', JSON.stringify(model1Config));
@@ -41,27 +49,45 @@ function TopicPage({ onStartDiscussion }) {
 
     useEffect(() => {
         localStorage.setItem('ai-discuss-topic', topic);
-    }, [topic]);
-
-    const fetchAvailableModels = async () => {
+    }, [topic]);    const fetchAvailableModels = async () => {
         setIsLoadingModels(true);
+        setModelFetchError(null);
         try {
-            const response = await fetch(`${ollamaServerUrl}/api/tags`);
+            const headers = {};
+            
+            if (ollamaApiKey && ollamaApiKey.trim()) {
+                headers['X-API-Key'] = ollamaApiKey.trim();
+            }
+            console.log("Headers:", headers);
+            const response = await fetch(`${ollamaServerUrl}/api/tags`, {
+                headers
+            });
+            
             if (response.ok) {
                 const data = await response.json();
                 setAvailableModels(data.models || []);
             } else {
                 setAvailableModels([]);
+                setModelFetchError(`HTTP ${response.status}: ${response.statusText}`);
             }
         } catch (error) {
             console.error('Failed to fetch models:', error);
             setAvailableModels([]);
+            setModelFetchError(error.message);
         } finally {
             setIsLoadingModels(false);
         }
+    };    const handleServerUrlKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            fetchAvailableModels();
+        }
     };
 
-    const handleModel1Change = (field, value) => {
+    const handleApiKeyKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            fetchAvailableModels();
+        }
+    };    const handleModel1Change = (field, value) => {
         setModel1Config(prev => ({ ...prev, [field]: value }));
     };
 
@@ -75,12 +101,11 @@ function TopicPage({ onStartDiscussion }) {
                model1Config.name.trim() && 
                model2Config.model && 
                model2Config.name.trim();
-    };
-
-    const handleStartDiscussion = () => {
+    };    const handleStartDiscussion = () => {
         if (canStartDiscussion()) {
             onStartDiscussion({
                 ollamaServerUrl,
+                ollamaApiKey,
                 topic: topic.trim(),
                 model1: model1Config,
                 model2: model2Config
@@ -100,18 +125,65 @@ function TopicPage({ onStartDiscussion }) {
                             type="text"
                             value={ollamaServerUrl}
                             onChange={(e) => setOllamaServerUrl(e.target.value)}
+                            onKeyPress={handleServerUrlKeyPress}
                             placeholder="http://localhost:11434"
                         />
                         {isLoadingModels && <span className="loading-text">Loading models...</span>}
-                    </div>                    <div className="url-help">
-                        <small>
-                            💡 For GitHub Pages deployment, ensure your Ollama server allows CORS. 
-                            Set <code>OLLAMA_ORIGINS=https://*.tremech.us</code> environment variable before starting Ollama.
-                            <br />
-                            📦 For Docker: <code>docker run -e OLLAMA_ORIGINS="https://*.tremech.us" ollama/ollama</code>
+                        {!isLoadingModels && !modelFetchError && availableModels.length > 0 && (
+                            <span className="success-text">✅ {availableModels.length} models available</span>
+                        )}
+                    </div>
+                </div>{/* Ollama API Key */}
+                <div className="config-section">
+                    <label htmlFor="ollama-api-key">API Key (optional):</label>
+                    <input
+                        id="ollama-api-key"
+                        type="password"
+                        value={ollamaApiKey}
+                        onChange={(e) => setOllamaApiKey(e.target.value)}
+                        onKeyPress={handleApiKeyKeyPress}
+                        placeholder="Enter API key if required by your Ollama server..."
+                    />
+                    <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <button 
+                            type="button"
+                            onClick={fetchAvailableModels}
+                            disabled={isLoadingModels}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                backgroundColor: '#667eea',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '6px',
+                                cursor: isLoadingModels ? 'not-allowed' : 'pointer',
+                                fontSize: '0.875rem',
+                                opacity: isLoadingModels ? 0.6 : 1
+                            }}
+                        >
+                            {isLoadingModels ? 'Testing...' : 'Test Connection'}
+                        </button>
+                        <small style={{ color: '#718096', fontSize: '0.875rem' }}>
+                            or press Enter in either field above
                         </small>
                     </div>
                 </div>
+
+                {/* Show CORS help only when model fetch fails */}
+                {modelFetchError && (
+                    <div className="config-section error-section">
+                        <div className="error-message">
+                            <strong>⚠️ Failed to connect to Ollama server:</strong> {modelFetchError}
+                        </div>
+                        <div className="url-help">
+                            <small>
+                                💡 For GitHub Pages deployment, ensure your Ollama server allows CORS. 
+                                Set <code>OLLAMA_ORIGINS=https://*.tremech.us</code> environment variable before starting Ollama.
+                                <br />
+                                📦 For Docker: <code>docker run -e OLLAMA_ORIGINS="https://*.tremech.us" ollama/ollama</code>
+                            </small>
+                        </div>
+                    </div>
+                )}
 
                 {/* Topic */}
                 <div className="config-section">
