@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama-ai-discuss
+    ports:
+      - "11434:11434"
+    environment:
+      # Allow all temech.us subdomains and localhost for development
+      - OLLAMA_ORIGINS=https://*.temech.us,http://localhost:3000,http://127.0.0.1:3000
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    # Uncomment the following lines if you have an NVIDIA GPU
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  ollama_data:
+    driver: local
+
+# To use this file:
+# 1. Save as docker-compose.yml
+# 2. Run: docker-compose up -d
+# 3. Pull models: docker exec -it ollama-ai-discuss ollama pull llama2
+# 4. Access at http://localhost:11434 or http://YOUR_SERVER_IP:11434

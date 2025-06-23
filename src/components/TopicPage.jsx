@@ -91,19 +91,26 @@ function TopicPage({ onStartDiscussion }) {
     return (
         <div className="topic-page">
             <div className="config-container">
-                <h2>Discussion Configuration</h2>
-                
-                {/* Ollama Server URL */}
+                <h2>Discussion Configuration</h2>                {/* Ollama Server URL */}
                 <div className="config-section">
                     <label htmlFor="ollama-url">Ollama Server URL:</label>
-                    <input
-                        id="ollama-url"
-                        type="text"
-                        value={ollamaServerUrl}
-                        onChange={(e) => setOllamaServerUrl(e.target.value)}
-                        placeholder="http://localhost:11434"
-                    />
-                    {isLoadingModels && <span className="loading-text">Loading models...</span>}
+                    <div className="url-input-container">
+                        <input
+                            id="ollama-url"
+                            type="text"
+                            value={ollamaServerUrl}
+                            onChange={(e) => setOllamaServerUrl(e.target.value)}
+                            placeholder="http://localhost:11434"
+                        />
+                        {isLoadingModels && <span className="loading-text">Loading models...</span>}
+                    </div>                    <div className="url-help">
+                        <small>
+                            💡 For GitHub Pages deployment, ensure your Ollama server allows CORS. 
+                            Set <code>OLLAMA_ORIGINS=https://*.temech.us</code> environment variable before starting Ollama.
+                            <br />
+                            📦 For Docker: <code>docker run -e OLLAMA_ORIGINS="https://*.temech.us" ollama/ollama</code>
+                        </small>
+                    </div>
                 </div>
 
                 {/* Topic */}

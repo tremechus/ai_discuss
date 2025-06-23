@@ -114,6 +114,31 @@ main {
   font-style: italic;
 }
 
+/* URL Help Text */
+.url-help {
+  margin-top: 0.5rem;
+}
+
+.url-help small {
+  color: #718096;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  display: block;
+  background: #f0f4f8;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.url-help code {
+  background: #e2e8f0;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.8rem;
+  color: #2d3748;
+}
+
 /* Model Configuration */
 .model-config {
   background: #f7fafc;

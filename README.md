@@ -10,6 +10,7 @@ A modern web application where AI models engage in thoughtful discussions on use
 - **Local Storage**: Maintains your settings and preferences between sessions
 - **Modern UI**: Beautiful, responsive interface with smooth animations
 - **Ollama Integration**: Seamlessly connects to your local Ollama server
+- **GitHub Pages Deployment**: Can be hosted and used from any device
 
 ## Getting Started
 
@@ -33,6 +34,64 @@ A modern web application where AI models engage in thoughtful discussions on use
    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## CORS Setup for GitHub Pages Deployment
+
+If you're using the hosted version at `https://ai_discuss.temech.us`, you need to configure CORS on your Ollama server.
+
+### Docker Setup (Recommended for Local Servers)
+
+If you're running Ollama in Docker on a local server:
+
+1. Use the provided Docker Compose file:
+   ```bash
+   docker-compose up -d
+   ```
+
+2. Or run directly with Docker:
+   ```bash
+   docker run -d \
+     --name ollama \
+     -p 11434:11434 \
+     -e OLLAMA_ORIGINS="https://*.temech.us,http://localhost:3000" \
+     -v ollama:/root/.ollama \
+     ollama/ollama
+   ```
+
+3. Update the Ollama Server URL in AI Discuss to your server's IP:
+   ```
+   http://YOUR_SERVER_IP:11434
+   ```
+
+### Quick Start Scripts
+Run the provided batch script:
+```cmd
+start-ollama-with-cors.bat
+```
+
+### Quick Start (Linux/Mac)
+Run the provided shell script:
+```bash
+chmod +x start-ollama-with-cors.sh
+./start-ollama-with-cors.sh
+```
+
+### Manual Setup
+Set the environment variable before starting Ollama:
+
+**Windows:**
+```cmd
+set OLLAMA_ORIGINS=https://*.temech.us,http://localhost:3000
+ollama serve
+```
+
+**Linux/Mac:**
+```bash
+export OLLAMA_ORIGINS="https://*.temech.us,http://localhost:3000"
+ollama serve
+```
+
+For more detailed CORS setup instructions, see [CORS_SETUP.md](CORS_SETUP.md).
 
 ### Using the Application
 
