@@ -1,7 +1,7 @@
 @echo off
 echo Starting Ollama server with CORS enabled for AI Discuss...
 echo.
-echo This will allow AI Discuss hosted at https://ai_discuss.tremech.us to connect to your local Ollama server.
+echo This will allow AI Discuss hosted at https://aidiscuss.tremech.us to connect to your local Ollama server.
 echo.
 
 REM Set the OLLAMA_ORIGINS environment variable to allow the hosted site and all tremech.us subdomains

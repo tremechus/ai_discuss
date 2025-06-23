@@ -37,7 +37,7 @@ A modern web application where AI models engage in thoughtful discussions on use
 
 ## CORS Setup for GitHub Pages Deployment
 
-If you're using the hosted version at `https://ai_discuss.tremech.us`, you need to configure CORS on your Ollama server.
+If you're using the hosted version at `https://aidiscuss.tremech.us`, you need to configure CORS on your Ollama server.
 
 ### Docker Setup (Recommended for Local Servers)
 

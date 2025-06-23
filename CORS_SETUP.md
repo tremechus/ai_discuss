@@ -51,26 +51,26 @@ docker run -d \
   ollama/ollama
 ```
 
-**Note:** The wildcard `*.tremech.us` allows all subdomains of tremech.us (like ai_discuss.tremech.us, api.tremech.us, etc.)
+**Note:** The wildcard `*.tremech.us` allows all subdomains of tremech.us (like aidiscuss.tremech.us, api.tremech.us, etc.)
 
 ### Option B: Set Environment Variable (Non-Docker)
 Set the `OLLAMA_ORIGINS` environment variable to allow your domain:
 
 **Windows (Command Prompt):**
 ```cmd
-set OLLAMA_ORIGINS=https://ai_discuss.tremech.us,http://localhost:3000
+set OLLAMA_ORIGINS=https://aidiscuss.tremech.us,http://localhost:3000
 ollama serve
 ```
 
 **Windows (PowerShell):**
 ```powershell
-$env:OLLAMA_ORIGINS="https://ai_discuss.tremech.us,http://localhost:3000"
+$env:OLLAMA_ORIGINS="https://aidiscuss.tremech.us,http://localhost:3000"
 ollama serve
 ```
 
 **Linux/Mac:**
 ```bash
-export OLLAMA_ORIGINS="https://ai_discuss.tremech.us,http://localhost:3000"
+export OLLAMA_ORIGINS="https://aidiscuss.tremech.us,http://localhost:3000"
 ollama serve
 ```
 
@@ -90,7 +90,7 @@ After=network.target
 [Service]
 Type=simple
 User=your-username
-Environment=OLLAMA_ORIGINS=https://ai_discuss.tremech.us,http://localhost:3000
+Environment=OLLAMA_ORIGINS=https://aidiscuss.tremech.us,http://localhost:3000
 ExecStart=/usr/local/bin/ollama serve
 Restart=always
 
@@ -127,9 +127,8 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-          # CORS headers
-        add_header 'Access-Control-Allow-Origin' 'https://ai_discuss.tremech.us' always;
+        proxy_set_header X-Forwarded-Proto $scheme;        # CORS headers
+        add_header 'Access-Control-Allow-Origin' 'https://aidiscuss.tremech.us' always;
         add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
         add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
         
@@ -156,7 +155,7 @@ const app = express();
 
 // Enable CORS for your domain
 app.use(cors({
-    origin: ['https://ai_discuss.tremech.us', 'http://localhost:3000'],
+    origin: ['https://aidiscuss.tremech.us', 'http://localhost:3000'],
     credentials: true
 }));
 
