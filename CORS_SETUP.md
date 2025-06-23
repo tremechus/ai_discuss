@@ -13,7 +13,7 @@ If you're running Ollama in a Docker container, you need to set the environment 
 docker run -d \
   --name ollama \
   -p 11434:11434 \
-  -e OLLAMA_ORIGINS="https://*.temech.us,http://localhost:3000,http://127.0.0.1:3000" \
+  -e OLLAMA_ORIGINS="https://*.tremech.us,http://localhost:3000,http://127.0.0.1:3000" \
   -v ollama:/root/.ollama \
   ollama/ollama
 ```
@@ -26,9 +26,8 @@ services:
     image: ollama/ollama
     container_name: ollama
     ports:
-      - "11434:11434"
-    environment:
-      - OLLAMA_ORIGINS=https://*.temech.us,http://localhost:3000,http://127.0.0.1:3000
+      - "11434:11434"    environment:
+      - OLLAMA_ORIGINS=https://*.tremech.us,http://localhost:3000,http://127.0.0.1:3000
     volumes:
       - ollama:/root/.ollama
     restart: unless-stopped
@@ -47,32 +46,31 @@ docker rm ollama
 # Start with CORS configuration
 docker run -d \
   --name ollama \
-  -p 11434:11434 \
-  -e OLLAMA_ORIGINS="https://*.temech.us,http://localhost:3000,http://127.0.0.1:3000" \
+  -p 11434:11434 \  -e OLLAMA_ORIGINS="https://*.tremech.us,http://localhost:3000,http://127.0.0.1:3000" \
   -v ollama:/root/.ollama \
   ollama/ollama
 ```
 
-**Note:** The wildcard `*.temech.us` allows all subdomains of temech.us (like ai_discuss.temech.us, api.temech.us, etc.)
+**Note:** The wildcard `*.tremech.us` allows all subdomains of tremech.us (like ai_discuss.tremech.us, api.tremech.us, etc.)
 
 ### Option B: Set Environment Variable (Non-Docker)
 Set the `OLLAMA_ORIGINS` environment variable to allow your domain:
 
 **Windows (Command Prompt):**
 ```cmd
-set OLLAMA_ORIGINS=https://ai_discuss.temech.us,http://localhost:3000
+set OLLAMA_ORIGINS=https://ai_discuss.tremech.us,http://localhost:3000
 ollama serve
 ```
 
 **Windows (PowerShell):**
 ```powershell
-$env:OLLAMA_ORIGINS="https://ai_discuss.temech.us,http://localhost:3000"
+$env:OLLAMA_ORIGINS="https://ai_discuss.tremech.us,http://localhost:3000"
 ollama serve
 ```
 
 **Linux/Mac:**
 ```bash
-export OLLAMA_ORIGINS="https://ai_discuss.temech.us,http://localhost:3000"
+export OLLAMA_ORIGINS="https://ai_discuss.tremech.us,http://localhost:3000"
 ollama serve
 ```
 
@@ -92,7 +90,7 @@ After=network.target
 [Service]
 Type=simple
 User=your-username
-Environment=OLLAMA_ORIGINS=https://ai_discuss.temech.us,http://localhost:3000
+Environment=OLLAMA_ORIGINS=https://ai_discuss.tremech.us,http://localhost:3000
 ExecStart=/usr/local/bin/ollama serve
 Restart=always
 
@@ -130,9 +128,8 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        
-        # CORS headers
-        add_header 'Access-Control-Allow-Origin' 'https://ai_discuss.temech.us' always;
+          # CORS headers
+        add_header 'Access-Control-Allow-Origin' 'https://ai_discuss.tremech.us' always;
         add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS' always;
         add_header 'Access-Control-Allow-Headers' 'Content-Type, Authorization' always;
         
@@ -159,7 +156,7 @@ const app = express();
 
 // Enable CORS for your domain
 app.use(cors({
-    origin: ['https://ai_discuss.temech.us', 'http://localhost:3000'],
+    origin: ['https://ai_discuss.tremech.us', 'http://localhost:3000'],
     credentials: true
 }));
 
@@ -206,7 +203,7 @@ Use your server's local IP address instead of localhost:
 docker run -d \
   --name ollama \
   -p 0.0.0.0:11434:11434 \
-  -e OLLAMA_ORIGINS="https://*.temech.us,http://localhost:3000,http://127.0.0.1:3000,http://YOUR_SERVER_IP:3000" \
+  -e OLLAMA_ORIGINS="https://*.tremech.us,http://localhost:3000,http://127.0.0.1:3000,http://YOUR_SERVER_IP:3000" \
   -v ollama:/root/.ollama \
   ollama/ollama
 ```

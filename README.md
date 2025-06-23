@@ -37,7 +37,7 @@ A modern web application where AI models engage in thoughtful discussions on use
 
 ## CORS Setup for GitHub Pages Deployment
 
-If you're using the hosted version at `https://ai_discuss.temech.us`, you need to configure CORS on your Ollama server.
+If you're using the hosted version at `https://ai_discuss.tremech.us`, you need to configure CORS on your Ollama server.
 
 ### Docker Setup (Recommended for Local Servers)
 
@@ -49,11 +49,10 @@ If you're running Ollama in Docker on a local server:
    ```
 
 2. Or run directly with Docker:
-   ```bash
-   docker run -d \
+   ```bash   docker run -d \
      --name ollama \
      -p 11434:11434 \
-     -e OLLAMA_ORIGINS="https://*.temech.us,http://localhost:3000" \
+     -e OLLAMA_ORIGINS="https://*.tremech.us,http://localhost:3000" \
      -v ollama:/root/.ollama \
      ollama/ollama
    ```
@@ -81,13 +80,13 @@ Set the environment variable before starting Ollama:
 
 **Windows:**
 ```cmd
-set OLLAMA_ORIGINS=https://*.temech.us,http://localhost:3000
+set OLLAMA_ORIGINS=https://*.tremech.us,http://localhost:3000
 ollama serve
 ```
 
 **Linux/Mac:**
 ```bash
-export OLLAMA_ORIGINS="https://*.temech.us,http://localhost:3000"
+export OLLAMA_ORIGINS="https://*.tremech.us,http://localhost:3000"
 ollama serve
 ```
 

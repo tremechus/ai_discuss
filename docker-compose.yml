@@ -5,10 +5,9 @@ services:
     image: ollama/ollama
     container_name: ollama-ai-discuss
     ports:
-      - "11434:11434"
-    environment:
-      # Allow all temech.us subdomains and localhost for development
-      - OLLAMA_ORIGINS=https://*.temech.us,http://localhost:3000,http://127.0.0.1:3000
+      - "11434:11434"    environment:
+      # Allow all tremech.us subdomains and localhost for development
+      - OLLAMA_ORIGINS=https://*.tremech.us,http://localhost:3000,http://127.0.0.1:3000
     volumes:
       - ollama_data:/root/.ollama
     restart: unless-stopped

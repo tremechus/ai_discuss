@@ -106,9 +106,9 @@ function TopicPage({ onStartDiscussion }) {
                     </div>                    <div className="url-help">
                         <small>
                             💡 For GitHub Pages deployment, ensure your Ollama server allows CORS. 
-                            Set <code>OLLAMA_ORIGINS=https://*.temech.us</code> environment variable before starting Ollama.
+                            Set <code>OLLAMA_ORIGINS=https://*.tremech.us</code> environment variable before starting Ollama.
                             <br />
-                            📦 For Docker: <code>docker run -e OLLAMA_ORIGINS="https://*.temech.us" ollama/ollama</code>
+                            📦 For Docker: <code>docker run -e OLLAMA_ORIGINS="https://*.tremech.us" ollama/ollama</code>
                         </small>
                     </div>
                 </div>
